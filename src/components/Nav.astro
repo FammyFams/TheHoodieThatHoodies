@@ -1,0 +1,70 @@
+---
+interface Props {
+  currentPage?: "work" | "info";
+}
+const { currentPage } = Astro.props;
+---
+
+<nav>
+  <a href="/" class="logo">Matthew Zheng</a>
+  <div class="links">
+    <a href="/" class:list={["nav-link", { active: currentPage === "work" }]}>Work</a>
+    <a href="/info" class:list={["nav-link", { active: currentPage === "info" }]}>Info</a>
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.5rem 0 3rem;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .logo:hover {
+    color: var(--accent);
+  }
+
+  .links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--text);
+  }
+
+  .nav-link.active::after,
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+</style>

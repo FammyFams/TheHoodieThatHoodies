@@ -1,0 +1,169 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+---
+
+<Layout title="Matthew Zheng — Info">
+  <Nav currentPage="info" />
+
+  <main class="info-page">
+    <div class="intro">
+      <p class="eyebrow">About</p>
+      <h1>Hey, I'm <em>Matthew Zheng.</em></h1>
+    </div>
+
+    <div class="content">
+      <div class="bio">
+        <p>
+          A couple sentences about yourself here. What do you do, what do you care about,
+          what drives you to build things? Keep it real — no corporate speak.
+        </p>
+        <p>
+          Second paragraph if you want it. Maybe talk about what you're currently into,
+          or where you're from, or what you do outside of code.
+        </p>
+      </div>
+
+      <div class="details">
+        <div class="detail-block">
+          <h3>Currently</h3>
+          <ul>
+            <li>Working on whatever</li>
+            <li>Learning something new</li>
+            <li>Based in somewhere</li>
+          </ul>
+        </div>
+
+        <div class="detail-block">
+          <h3>Interests</h3>
+          <ul>
+            <li>Thing you like</li>
+            <li>Another thing</li>
+            <li>One more thing</li>
+          </ul>
+        </div>
+
+        <div class="detail-block">
+          <h3>Links</h3>
+          <ul>
+            <li><a href="https://github.com/FammyFams" target="_blank" rel="noopener">GitHub ↗</a></li>
+            <li><a href="#" target="_blank" rel="noopener">Twitter / X ↗</a></li>
+            <li><a href="mailto:you@example.com">Email ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p><a href="/">← Back to work</a></p>
+  </footer>
+</Layout>
+
+<style>
+  .info-page {
+    padding: 4rem 0 6rem;
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 4rem;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 900px;
+  }
+
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .bio p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .detail-block h3 {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .detail-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .detail-block li {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+
+  .detail-block a {
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .detail-block a:hover {
+    color: var(--accent);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+  }
+
+  footer a {
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .content {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>
