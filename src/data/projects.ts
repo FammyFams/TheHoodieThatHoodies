@@ -8,6 +8,13 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: "Hilichurl",
+    description: "Genshin damage simulator.",
+    tags: ["web", "game"],
+    url: "https://hilichurl.com/",
+    year: 2026,
+  },
+  {
     title: "Project One",
     description: "A short description of what this project does and why it's cool.",
     tags: ["web", "typescript"],
