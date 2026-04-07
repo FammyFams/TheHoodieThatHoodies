@@ -20,6 +20,18 @@ const { title = "Your Name" } = Astro.props;
     <meta name="twitter:title" content="the hoodie that hoodies" />
     <meta name="twitter:description" content="sometimes a hoodie hoodies. sometimes it won't." />
     <link rel="canonical" href="https://www.thehoodiethathoodies.com/" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "hoodie",
+        "url": "https://www.thehoodiethathoodies.com",
+        "description": "hoodie that hoodies. projects, experiments, and things built for fun.",
+        "sameAs": [
+          "https://github.com/FammyFams"
+        ]
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <!-- Google tag (gtag.js) -->
