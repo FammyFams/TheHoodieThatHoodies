@@ -105,6 +105,69 @@ const { title = "Your Name" } = Astro.props;
     </style>
   </head>
   <body>
+    <canvas id="parallax-specs" aria-hidden="true"></canvas>
     <slot />
+    <script>
+      const canvas = document.getElementById('parallax-specs') as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d')!;
+
+      const colors = ['#d4f14e', '#4ecef1', '#f14ea8', '#f1a84e', '#8b5cf6'];
+      const specs: { x: number; y: number; r: number; color: string; speed: number; opacity: number }[] = [];
+      const SPEC_COUNT = 60;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = document.documentElement.scrollHeight;
+      }
+
+      function init() {
+        resize();
+        specs.length = 0;
+        for (let i = 0; i < SPEC_COUNT; i++) {
+          specs.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 3 + 1.5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speed: Math.random() * 0.4 + 0.1,
+            opacity: Math.random() * 0.4 + 0.15,
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const scrollY = window.scrollY;
+        for (const s of specs) {
+          const y = s.y - scrollY * s.speed;
+          ctx.beginPath();
+          ctx.arc(s.x, y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = s.color;
+          ctx.globalAlpha = s.opacity;
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(draw);
+      }
+
+      init();
+      draw();
+      window.addEventListener('resize', init);
+    </script>
+    <style is:global>
+      #parallax-specs {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+      body > *:not(#parallax-specs) {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
   </body>
 </html>
