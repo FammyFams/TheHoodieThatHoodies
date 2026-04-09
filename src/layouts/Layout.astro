@@ -102,10 +102,51 @@ const { title = "Your Name" } = Astro.props;
         background: var(--border);
         border-radius: 3px;
       }
+
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #0e0e0e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      #loader.done {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #loader-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #parallax-specs,
+      #cursor-trail {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      #parallax-specs { z-index: 0; }
+      #cursor-trail { z-index: 9999; }
+      body > *:not(#parallax-specs):not(#cursor-trail) {
+        position: relative;
+        z-index: 1;
+      }
     </style>
   </head>
   <body>
+    <div id="loader" aria-hidden="true">
+      <canvas id="loader-canvas"></canvas>
+    </div>
     <canvas id="parallax-specs" aria-hidden="true"></canvas>
+    <canvas id="cursor-trail" aria-hidden="true"></canvas>
     <slot />
     <script>
       const canvas = document.getElementById('parallax-specs') as HTMLCanvasElement;
@@ -113,7 +154,7 @@ const { title = "Your Name" } = Astro.props;
 
       const colors = ['#d4f14e', '#4ecef1', '#f14ea8', '#f1a84e', '#8b5cf6'];
       const specs: { x: number; y: number; r: number; color: string; speed: number; opacity: number }[] = [];
-      const SPEC_COUNT = 60;
+      const SPEC_COUNT = 90;
 
       function resize() {
         canvas.width = window.innerWidth;
@@ -138,10 +179,13 @@ const { title = "Your Name" } = Astro.props;
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const scrollY = window.scrollY;
+        const t = performance.now() * 0.0003;
         for (const s of specs) {
           const y = s.y - scrollY * s.speed;
+          const dx = Math.sin(t * s.speed * 3 + s.x) * 1.5;
+          const dy = Math.cos(t * s.speed * 2 + s.y) * 1.5;
           ctx.beginPath();
-          ctx.arc(s.x, y, s.r, 0, Math.PI * 2);
+          ctx.arc(s.x + dx, y + dy, s.r, 0, Math.PI * 2);
           ctx.fillStyle = s.color;
           ctx.globalAlpha = s.opacity;
           ctx.fill();
@@ -153,21 +197,115 @@ const { title = "Your Name" } = Astro.props;
       init();
       draw();
       window.addEventListener('resize', init);
+
+      // Cursor trail
+      const trailColors = ['#d4f14e', '#4ecef1', '#f14ea8', '#f1a84e', '#8b5cf6'];
+      const trail: { x: number; y: number; color: string; life: number }[] = [];
+      let mouseX = 0, mouseY = 0;
+      let lastTrailX = 0, lastTrailY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        const dx = mouseX - lastTrailX;
+        const dy = mouseY - lastTrailY;
+        if (dx * dx + dy * dy > 64) {
+          trail.push({
+            x: mouseX,
+            y: mouseY,
+            color: trailColors[Math.floor(Math.random() * trailColors.length)],
+            life: 1,
+          });
+          if (trail.length > 20) trail.shift();
+          lastTrailX = mouseX;
+          lastTrailY = mouseY;
+        }
+      });
+
+      const trailCanvas = document.getElementById('cursor-trail') as HTMLCanvasElement;
+      const tCtx = trailCanvas.getContext('2d')!;
+
+      function resizeTrail() {
+        trailCanvas.width = window.innerWidth;
+        trailCanvas.height = window.innerHeight;
+      }
+      resizeTrail();
+      window.addEventListener('resize', resizeTrail);
+
+      function drawTrail() {
+        tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+        for (let i = trail.length - 1; i >= 0; i--) {
+          const p = trail[i];
+          p.life -= 0.025;
+          if (p.life <= 0) { trail.splice(i, 1); continue; }
+          tCtx.beginPath();
+          tCtx.arc(p.x, p.y, 2.5 * p.life, 0, Math.PI * 2);
+          tCtx.fillStyle = p.color;
+          tCtx.globalAlpha = p.life * 0.6;
+          tCtx.fill();
+        }
+        tCtx.globalAlpha = 1;
+        requestAnimationFrame(drawTrail);
+      }
+      drawTrail();
+
+      // Loader animation
+      const loader = document.getElementById('loader')!;
+      const lCanvas = document.getElementById('loader-canvas') as HTMLCanvasElement;
+      const lCtx = lCanvas.getContext('2d')!;
+      lCanvas.width = window.innerWidth;
+      lCanvas.height = window.innerHeight;
+
+      const loaderColors = ['#d4f14e', '#4ecef1', '#f14ea8', '#f1a84e', '#8b5cf6'];
+      const dots: { x: number; y: number; tx: number; ty: number; r: number; color: string; delay: number; drift: number }[] = [];
+
+      for (let i = 0; i < 80; i++) {
+        const tx = Math.random() * lCanvas.width;
+        const ty = Math.random() * lCanvas.height;
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 150 + Math.random() * 400;
+        dots.push({
+          x: tx + Math.cos(angle) * dist,
+          y: ty + Math.sin(angle) * dist,
+          tx, ty,
+          r: Math.random() * 3 + 1,
+          color: loaderColors[Math.floor(Math.random() * loaderColors.length)],
+          delay: Math.random() * 0.4,
+          drift: Math.random() * 2 + 1,
+        });
+      }
+
+      const loaderStart = performance.now();
+      const CONVERGE_MS = 1000;
+      const SETTLE_MS = 600;
+      const TOTAL_MS = CONVERGE_MS + SETTLE_MS;
+
+      function drawLoader(now: number) {
+        const elapsed = now - loaderStart;
+        const t = Math.min(elapsed / CONVERGE_MS, 1);
+        lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
+
+        for (const d of dots) {
+          const dt = Math.max(0, Math.min(1, (t - d.delay) / (1 - d.delay)));
+          const de = 1 - Math.pow(1 - dt, 3);
+          const px = d.x + (d.tx - d.x) * de;
+          const py = d.y + (d.ty - d.y) * de;
+          const shimmer = t >= 1 ? Math.sin((elapsed - CONVERGE_MS) * 0.005 * d.drift) * 3 : 0;
+          lCtx.beginPath();
+          lCtx.arc(px + shimmer, py, d.r, 0, Math.PI * 2);
+          lCtx.fillStyle = d.color;
+          lCtx.globalAlpha = 0.3 + de * 0.5;
+          lCtx.fill();
+        }
+        lCtx.globalAlpha = 1;
+
+        if (elapsed < TOTAL_MS) {
+          requestAnimationFrame(drawLoader);
+        } else {
+          loader.classList.add('done');
+        }
+      }
+      requestAnimationFrame(drawLoader);
     </script>
-    <style is:global>
-      #parallax-specs {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-      }
-      body > *:not(#parallax-specs) {
-        position: relative;
-        z-index: 1;
-      }
-    </style>
   </body>
 </html>
