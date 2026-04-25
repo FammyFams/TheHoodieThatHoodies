@@ -1,0 +1,235 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="TripSharing · Privacy Policy">
+  <main class="privacy">
+    <header class="page-header">
+      <a class="back" href="/">← thehoodiethathoodies</a>
+      <h1>TripSharing</h1>
+      <p class="kicker">Privacy Policy · Effective April 25, 2026</p>
+    </header>
+
+    <article>
+      <p class="lede">
+        TripSharing is a personal app for splitting group-trip expenses between friends and
+        travel companions. This page explains, in plain language, what data the app handles
+        and why.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>The only data TripSharing collects is what you give it directly:</p>
+      <ul>
+        <li>
+          <strong>Account identifiers.</strong> When you sign in we store an email address and
+          a Supabase-issued user ID. If you sign in with Apple or Google, we receive whatever
+          identifier and email those providers return — Apple may relay an anonymized email if
+          you choose <em>Hide My Email</em>.
+        </li>
+        <li>
+          <strong>Profile.</strong> The display name you set, and (optionally) your Venmo
+          handle if you fill it in.
+        </li>
+        <li>
+          <strong>Trip and expense content.</strong> Trip names, the people you add to a trip,
+          expense amounts, descriptions, dates, currency, and how each expense is split. This
+          is the core data the app exists to manage.
+        </li>
+      </ul>
+      <p>
+        We do not collect device identifiers for advertising, location data, contacts, photos,
+        microphone audio, browsing history, or any data you have not entered into the app.
+      </p>
+
+      <h2>How we use it</h2>
+      <p>
+        Your data is used solely to provide the app's features: signing you in, displaying
+        your trips, calculating who owes what, and syncing that information between you and
+        the people you have explicitly added to a shared trip. It is not used for advertising,
+        analytics, profiling, or sale to third parties.
+      </p>
+
+      <h2>Where it is stored</h2>
+      <p>
+        All TripSharing data lives in a <a href="https://supabase.com">Supabase</a> Postgres
+        database operated as the app's backend. Every table is protected by Postgres
+        row-level-security policies so that you can only read and write data tied to trips you
+        are a member of. Authentication tokens are stored on your device in the iOS Keychain
+        (via <code>expo-secure-store</code>) and never written to disk in plain text.
+      </p>
+
+      <h2>Third parties</h2>
+      <ul>
+        <li>
+          <strong>Apple</strong> and <strong>Google</strong> are used for native sign-in. They
+          authenticate you and return an identity token; they do not see your trip data.
+        </li>
+        <li>
+          <strong>Supabase</strong> hosts the database, authentication service, and stored
+          files on the app's behalf. They are a data processor, not a recipient of your data
+          for their own use.
+        </li>
+        <li>
+          <strong>Venmo</strong> is opened by deep link when you tap "Settle up." The app
+          never sees Venmo credentials or transaction status — it only launches the Venmo app
+          with a prefilled amount. Whatever happens inside Venmo is governed by Venmo's
+          privacy policy.
+        </li>
+      </ul>
+
+      <h2>What we don't do</h2>
+      <ul>
+        <li>No analytics SDKs, no third-party tracking, no advertising.</li>
+        <li>No selling or sharing of your data with anyone for any purpose.</li>
+        <li>No access to your phone's contacts, location, photos, or other system data.</li>
+        <li>
+          No real money movement. TripSharing tracks balances; settlement happens entirely
+          inside Venmo (or whatever method you choose externally).
+        </li>
+      </ul>
+
+      <h2>Your rights</h2>
+      <p>You can, at any time:</p>
+      <ul>
+        <li>Edit your display name and Venmo handle from the app's Settings screen.</li>
+        <li>Leave any trip you are a member of, removing your membership and splits.</li>
+        <li>
+          Request deletion of your account and all associated trip, expense, and profile data
+          by emailing
+          <a href="mailto:matthewzhenghi@gmail.com">matthewzhenghi@gmail.com</a>. We will
+          confirm and remove your data within 30 days.
+        </li>
+      </ul>
+
+      <h2>Children</h2>
+      <p>
+        TripSharing is not directed to children under 13 and we do not knowingly collect data
+        from anyone under 13. If you believe a child has created an account, contact us and we
+        will remove it.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If we materially change how data is handled, we will update this page and bump the
+        effective date at the top. For substantive changes, the next app release will surface
+        a notice the first time you open it.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, deletion requests, or anything else:
+        <a href="mailto:matthewzhenghi@gmail.com">matthewzhenghi@gmail.com</a>.
+      </p>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .privacy {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) 0 6rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    transition: color 0.2s ease;
+  }
+  .back:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .kicker {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  article {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+
+  .lede {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p,
+  li {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  p + p {
+    margin-top: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  em {
+    color: var(--text);
+    font-style: italic;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.9em;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 0.05em 0.4em;
+    border-radius: 4px;
+    color: var(--text);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  a:hover {
+    color: var(--accent-dim);
+  }
+</style>
