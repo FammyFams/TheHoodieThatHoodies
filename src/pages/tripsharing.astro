@@ -1,0 +1,243 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="TripSharing · Support">
+  <main class="support">
+    <header class="page-header">
+      <a class="back" href="/">← thehoodiethathoodies</a>
+      <h1>TripSharing</h1>
+      <p class="kicker">Support</p>
+    </header>
+
+    <article>
+      <p class="lede">
+        TripSharing is a group-trip expense app — Splitwise-style balances, with a
+        one-tap "Open Venmo" handoff for actually settling up. This page is here to
+        help if anything goes sideways.
+      </p>
+
+      <h2>Get in touch</h2>
+      <p>
+        The fastest way to reach us is email. We read every message and reply within
+        a couple of days, usually sooner.
+      </p>
+      <p>
+        <a href="mailto:matthewzhenghi@gmail.com?subject=TripSharing%20support"
+          >matthewzhenghi@gmail.com</a
+        >
+      </p>
+      <p>When you write in, it helps to include:</p>
+      <ul>
+        <li>Your device and iOS version (e.g. iPhone 14, iOS 18.2).</li>
+        <li>The app version, shown at the bottom of the Settings screen.</li>
+        <li>The display name or email you signed in with.</li>
+        <li>The trip name and (if relevant) the 8-character invite code.</li>
+        <li>A short description of what happened and what you expected.</li>
+        <li>A screenshot if the issue is visual.</li>
+      </ul>
+
+      <h2>Common questions</h2>
+
+      <h3>I invited someone but they don't show up in Members on my phone.</h3>
+      <p>
+        Pull-to-refresh on the Members screen, or navigate out of the trip and back
+        in — that re-fetches the latest member list. If they're still missing, ask
+        them to double-check the 8-character invite code (it avoids 0/O and 1/I/L,
+        so the only valid characters are A–Z and 2–9). Codes are case-insensitive.
+      </p>
+
+      <h3>The balance looks wrong.</h3>
+      <p>
+        TripSharing computes balances as <em>sum paid − sum owed</em> across every
+        expense in the trip. Open the expense list and check that each row's amount,
+        payer, and "split among" are correct. Tap an expense to edit it. If the
+        numbers still don't add up, email us with the trip invite code and we'll
+        take a look.
+      </p>
+
+      <h3>"Open Venmo" didn't open Venmo / opened the wrong account.</h3>
+      <p>
+        TripSharing launches Venmo via a deep link with the amount prefilled — it
+        never sees your Venmo credentials, and it can't change which Venmo account
+        you're signed into. Make sure the Venmo app is installed and that you're
+        signed in to the right account inside Venmo. The other person's Venmo
+        handle comes from <em>their</em> Settings screen — if it's wrong, ask them
+        to update it.
+      </p>
+
+      <h3>I added an expense in the wrong currency.</h3>
+      <p>
+        Tap the expense to edit it. Currency is set per expense, not per trip, so
+        you can fix it without touching the rest of the trip. The trip's default
+        currency just pre-fills new expenses.
+      </p>
+
+      <h3>I want to leave a trip.</h3>
+      <p>
+        Open the trip → Members → tap your own row → Leave Trip. Your splits stay
+        on existing expenses (so other members' balances don't silently shift), but
+        you won't be added to new ones.
+      </p>
+
+      <h3>I'm the trip owner — how do I delete the trip?</h3>
+      <p>
+        Open the trip → tap the trash icon in the top right → confirm. This is
+        permanent and removes every expense, split, and member record for that
+        trip.
+      </p>
+
+      <h3>How do I change my display name or Venmo handle?</h3>
+      <p>
+        Settings → tap the field → edit → save. The "Saved" banner confirms the
+        change and dismisses itself.
+      </p>
+
+      <h3>How do I sign out or switch accounts?</h3>
+      <p>
+        Settings → Sign out. The next launch returns you to the sign-in screen,
+        where you can use Apple, Google, or email.
+      </p>
+
+      <h3>How do I delete my account?</h3>
+      <p>
+        Email us at
+        <a href="mailto:matthewzhenghi@gmail.com?subject=TripSharing%20account%20deletion"
+          >matthewzhenghi@gmail.com</a
+        > with the subject "account deletion". We'll confirm and remove your
+        profile within 30 days. Note that if you're a member of trips with other
+        people, the trips themselves stay (so your travel companions' balances
+        don't get corrupted) but your profile and identifying info are removed.
+      </p>
+
+      <h3>I forgot my password.</h3>
+      <p>
+        On the sign-in screen, tap "Forgot password?". Enter your email and we'll
+        send a reset link. (If you originally signed in with Apple or Google, you
+        don't have a password — just use that same provider again.)
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        For details on what data the app handles and why, see the
+        <a href="/privacy/trip-sharing">TripSharing privacy policy</a>.
+      </p>
+
+      <h2>Other apps</h2>
+      <p>
+        Need help with Daily Math Friends instead? See the
+        <a href="/dailymath">Daily Math Friends support page</a>. One inbox covers
+        both apps.
+      </p>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .support {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) 0 6rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    transition: color 0.2s ease;
+  }
+  .back:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .kicker {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  article {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+
+  .lede {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 1.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  p,
+  li {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  p + p {
+    margin-top: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  em {
+    color: var(--text);
+    font-style: italic;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  a:hover {
+    color: var(--accent-dim);
+  }
+</style>
