@@ -15,6 +15,13 @@ export const projects: Project[] = [
     year: 2026,
   },
   {
+    title: "justpaint",
+    description: "A gallery-blog for painters.",
+    tags: ["web", "art"],
+    url: "https://justpaint.art/",
+    year: 2026,
+  },
+  {
     title: "MesoHungy",
     description: "Food finder app.",
     tags: ["web", "app"],
